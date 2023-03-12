@@ -1,7 +1,11 @@
-import Head from 'next/head'
-import HomePage from './home/home'
+import Head from "next/head";
+import HomePage from "./home/home";
+import toast from "react-hot-toast";
+import LoadingComponents from "@/components/loading";
 
 export default function Home() {
+  const notify = () => toast("Here is your toast.");
+
   return (
     <>
       <Head>
@@ -10,7 +14,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-     <HomePage />
+      <HomePage /> 
+      <LoadingComponents showLoading={false} />
     </>
-  )
+  );
 }

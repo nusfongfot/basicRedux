@@ -14,8 +14,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+import { registerUser } from "@/services/auth.service";
+import { LoadingButton } from "@mui/lab";
 
 function Copyright(props: any) {
+  const router = useRouter();
   return (
     <Typography
       variant="body2"
@@ -56,12 +60,31 @@ export default function SignUp() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: "all",
   });
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      const userCredential = await registerUser(
+        data.firstname,
+        data.lastname,
+        data.email,
+        data.password!
+      );
+      if (userCredential.user !== null) {
+        toast.success("ลงทะเบียนสำเร็จ");
+        router.push("/");
+      }
+    } catch (error: any) {
+      if (error.code === "auth/email-already-in-use") {
+        toast("มีผู้ใช้งานอีเมลน์นี้แล้ว");
+      } else {
+        toast.error(error.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -129,14 +152,16 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Button
+            <LoadingButton
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              loading={isSubmitting}
+              loadingIndicator={"กำลังลงทะเบียน กรุณารอสักครู่..."}
             >
               Sign Up
-            </Button>
+            </LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/signin" variant="body2">
