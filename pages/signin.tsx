@@ -64,8 +64,7 @@ export default function SignIn() {
       const userCredential = await loginUser(data.email, data.password!);
       if (userCredential.user !== null) {
         toast.success("เข้าสู่ระบบสำเร็จ");
-        // router.push("/dashboard/d-layout");
-        router.replace('/dashboard/d-layout', undefined, { shallow: true })
+        router.replace('/dashboard', undefined, { shallow: true })
       }
     } catch (error: any) {
       if (error.code === "auth/wrong-password") {

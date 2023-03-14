@@ -17,9 +17,12 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./d-menu";
-import DHome from "./d-home";
+import { MainListItems } from "./d-menu";
 import AccountMenu from "./d-acc-menu";
+import DHome from "./d-home";
+import { useRouter } from "next/router";
+import DLeave from "./d-leave";
+
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
@@ -95,6 +98,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const router = useRouter();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -149,9 +153,7 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            <MainListItems />
           </List>
         </Drawer>
         <Box
@@ -168,7 +170,8 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
-            <DHome />
+            {router.query.type === "home" ? <DHome /> : null}
+            {router.query.type === "d-leave" ? <DLeave /> : null}
           </Container>
         </Box>
       </Box>
