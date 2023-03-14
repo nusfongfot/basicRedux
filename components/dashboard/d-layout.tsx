@@ -19,9 +19,10 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MainListItems } from "./d-menu";
 import AccountMenu from "./d-acc-menu";
-import DHome from "./d-home";
+import DHome from "./dhome/d-home";
 import { useRouter } from "next/router";
 import DLeave from "./d-leave";
+import DManageLeave from "./d-manage-leave";
 
 // import Chart from './Chart';
 // import Deposits from './Deposits';
@@ -111,7 +112,7 @@ function DashboardContent() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
             }}
           >
             <IconButton
@@ -169,9 +170,9 @@ function DashboardContent() {
           }}
         >
           <Toolbar />
+
           <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
-            {router.query.type === "home" ? <DHome /> : null}
-            {router.query.type === "d-leave" ? <DLeave /> : null}
+            <DHome />
           </Container>
         </Box>
       </Box>
