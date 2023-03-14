@@ -18,10 +18,18 @@ type MenuItem = {
 };
 
 export const MainListItems = () => {
-  const router = useRouter()
+  const router = useRouter();
   const menuItem: Array<MenuItem> = [
-    { label: "หน้าหลัก", icon: <DashboardIcon />, href: "/dashmenu/t?type=home" },
-    { label: "ยืนใบลา", icon: <PeopleIcon />, href: "/dashmenu/t?type=d-leave" },
+    {
+      label: "หน้าหลัก",
+      icon: <DashboardIcon />,
+      href: "/dashmenu/t?type=home",
+    },
+    {
+      label: "ยืนใบลา",
+      icon: <PeopleIcon />,
+      href: "/dashmenu/t?type=d-leave",
+    },
     {
       label: "จัดการข้อมูลการลา",
       icon: <BarChartIcon />,
@@ -32,7 +40,13 @@ export const MainListItems = () => {
     <React.Fragment>
       {menuItem.map((menu, i) => {
         return (
-          <ListItemButton onClick={() => router.push(menu.href)} key={i}>
+          <ListItemButton
+            onClick={() => router.push(menu.href)}
+            key={i}
+            sx={{
+              backgroundColor: router.pathname === menu.href ? "grey" : "",
+            }}
+          >
             <ListItemIcon>{menu.icon}</ListItemIcon>
             <ListItemText primary={menu.label} />
           </ListItemButton>

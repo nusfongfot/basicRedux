@@ -1,3 +1,4 @@
+import { Account } from "./../app-types/accTypes";
 import { firebaseApp } from "@/configs/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -5,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
@@ -49,4 +50,19 @@ export async function loginUser(email: string, password: string) {
 
 export async function logoutUser(): Promise<void> {
   await signOut(auth);
+}
+
+export async function getCurrentAccount(userId: string) {
+  const accountRef = doc(db, "users", userId);
+  const docSnap = await getDoc(accountRef);
+  if (!docSnap.exists()) {
+    return null;
+  }
+
+  let accTmp = docSnap.data() as Account;
+  let acc = {
+    userId: userId,
+    ...accTmp,
+  };
+  return acc;
 }
