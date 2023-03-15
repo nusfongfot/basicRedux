@@ -1,11 +1,8 @@
 import Head from "next/head";
 import HomePage from "./home/home";
-import toast from "react-hot-toast";
 import LoadingComponents from "@/components/loading";
 
 export default function Home() {
-  const notify = () => toast("Here is your toast.");
-
   return (
     <>
       <Head>

@@ -5,11 +5,16 @@ import Dlayout from "../../components/dashboard/d-layout";
 import { firebaseApp } from "@/configs/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../reduxToolkit/hooks";
+import { selectAuthState } from "../../reduxToolkit/auth/authSlice";
+import { getCurrentAccountThunk } from "../../reduxToolkit/auth/authThunk";
+import { CircularProgress } from "@mui/material";
 
 export default function DashPage() {
   const router = useRouter();
   const auth = getAuth(firebaseApp);
-  const [account, setAccount] = useState(null);
+  const { account, isAuthLoading } = useAppSelector(selectAuthState);
+  const dispatch = useAppDispatch();
 
   if (typeof window !== "undefined") {
     if (!account) {
@@ -20,9 +25,7 @@ export default function DashPage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAccount(user);
-      } else {
-        setAccount(null);
+        dispatch(getCurrentAccountThunk(user.uid));
       }
     });
     return () => unsubscribe();
@@ -30,6 +33,7 @@ export default function DashPage() {
 
   return (
     <>
+      {isAuthLoading ? <CircularProgress /> : null}
       {router.query.type === "home" ? <Dlayout /> : null}
       {router.query.type === "d-leave" ? <DLeave /> : null}
       {router.query.type === "d-manage-leave" ? <DManageLeave /> : null}

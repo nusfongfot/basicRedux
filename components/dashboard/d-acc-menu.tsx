@@ -13,9 +13,12 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useRouter } from "next/router";
 import { logoutUser } from "@/services/auth.service";
+import { useAppSelector } from "@/reduxToolkit/hooks";
+import { selectAuthState } from "@/reduxToolkit/auth/authSlice";
 
 export default function AccountMenu() {
   const router = useRouter();
+  const { account } = useAppSelector(selectAuthState);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,6 +34,8 @@ export default function AccountMenu() {
   };
   return (
     <React.Fragment>
+      <Typography variant="h5">Welcome {`${account?.firstname } ${account?.lastname}`} </Typography>
+
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
           <IconButton
@@ -81,7 +86,7 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+          <Avatar />{`${account?.firstname } ${account?.lastname}`} 
         </MenuItem>
 
         <MenuItem onClick={gotoLogout}>

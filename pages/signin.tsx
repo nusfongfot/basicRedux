@@ -19,6 +19,8 @@ import * as yup from "yup";
 import toast from "react-hot-toast";
 import { LoadingButton } from "@mui/lab";
 import { loginUser } from "@/services/auth.service";
+import { useAppDispatch } from "@/reduxToolkit/hooks";
+import { getCurrentAccountThunk } from "@/reduxToolkit/auth/authThunk";
 
 function Copyright(props: any) {
   return (
@@ -51,6 +53,7 @@ type FormData = yup.InferType<typeof schema>;
 
 export default function SignIn() {
   const router = useRouter();
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -63,6 +66,7 @@ export default function SignIn() {
     try {
       const userCredential = await loginUser(data.email, data.password!);
       if (userCredential.user !== null) {
+       await dispatch(getCurrentAccountThunk(userCredential.user.uid))
         toast.success("เข้าสู่ระบบสำเร็จ");
         router.replace('/dashmenu/t?type=home', undefined, { shallow: true })
       }
