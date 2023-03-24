@@ -3,9 +3,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getCurrentAccountThunk = createAsyncThunk(
     "auth/getCurrentAccountThunk",
-    async (userId: string | null) => {
+    async (userId: string) => {
         try {
-           const account = await getCurrentAccount(userId!)
+           const account = await getCurrentAccount(userId)
            return account 
         } catch (error) {
             throw error

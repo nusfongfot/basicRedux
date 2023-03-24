@@ -16,20 +16,20 @@ export default function DashPage() {
   const { account, isAuthLoading } = useAppSelector(selectAuthState);
   const dispatch = useAppDispatch();
 
-  if (typeof window !== "undefined") {
-    if (!account) {
-      return window.location.replace("/signin");
-    }
-  }
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(getCurrentAccountThunk(user.uid));
+      } else {
+        router.push("/signin");
       }
     });
     return () => unsubscribe();
   }, []);
+
+  if (isAuthLoading) {
+    return <CircularProgress />;
+  }
 
   return (
     <>

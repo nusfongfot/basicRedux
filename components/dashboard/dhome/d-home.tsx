@@ -1,11 +1,13 @@
-import { selectAuthState } from "@/reduxToolkit/auth/authSlice";
-import { useAppSelector } from "@/reduxToolkit/hooks";
+import { useAccount } from "@/hooks/use-account";
+import { Box } from "@mui/material";
 
 function DHome() {
-  const { account } = useAppSelector(selectAuthState);
-
+  const { account } = useAccount();
   return (
-    <div>ยินดีต้อนรับ {account?.firstname}</div>
-  )
+    <Box>
+      <Box>ยินดีต้อนรับ {account?.firstname}</Box>
+      <Box>Role: {account?.role}</Box>
+    </Box>
+  );
 }
-export default DHome
+export default DHome;

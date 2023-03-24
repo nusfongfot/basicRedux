@@ -13,12 +13,12 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useRouter } from "next/router";
 import { logoutUser } from "@/services/auth.service";
-import { useAppSelector } from "@/reduxToolkit/hooks";
-import { selectAuthState } from "@/reduxToolkit/auth/authSlice";
+import { useAccount } from "@/hooks/use-account";
 
 export default function AccountMenu() {
+  const { account } = useAccount();
+
   const router = useRouter();
-  const { account } = useAppSelector(selectAuthState);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,7 +34,9 @@ export default function AccountMenu() {
   };
   return (
     <React.Fragment>
-      <Typography variant="h5">Welcome {`${account?.firstname } ${account?.lastname}`} </Typography>
+      <Typography variant="h5">
+        Welcome {`${account?.firstname} ${account?.lastname}`}{" "}
+      </Typography>
 
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
@@ -46,7 +48,9 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar src={account?.photoUrl} sx={{ width: 32, height: 32 }}>
+              M
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -86,7 +90,8 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar />{`${account?.firstname } ${account?.lastname}`} 
+          <Avatar src={account?.photoUrl} />
+          {`${account?.firstname} ${account?.lastname}`}
         </MenuItem>
 
         <MenuItem onClick={gotoLogout}>

@@ -23,6 +23,9 @@ import DHome from "./dhome/d-home";
 import { useRouter } from "next/router";
 import DLeave from "./d-leave";
 import DManageLeave from "./d-manage-leave";
+import { Avatar } from "@mui/material";
+import { useAppSelector } from "@/reduxToolkit/hooks";
+import { selectAuthState } from "@/reduxToolkit/auth/authSlice";
 
 // import Chart from './Chart';
 // import Deposits from './Deposits';
@@ -99,6 +102,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const { account } = useAppSelector(selectAuthState);
   const router = useRouter();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
@@ -136,6 +140,7 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
+
             <AccountMenu />
           </Toolbar>
         </AppBar>
