@@ -4,34 +4,25 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { useRouter } from "next/router";
-import { logoutUser } from "@/services/auth.service";
 import { useAccount } from "@/hooks/use-account";
 
 export default function AccountMenu() {
-  const { account } = useAccount();
+  const { account, gotoLogout, gotoProfilePage } = useAccount();
 
-  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    gotoProfilePage();
     setAnchorEl(null);
   };
 
-  const gotoLogout = async () => {
-    await logoutUser();
-    router.push("/");
-  };
   return (
     <React.Fragment>
       <Typography variant="h5">

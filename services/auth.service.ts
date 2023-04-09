@@ -6,7 +6,13 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
@@ -65,4 +71,12 @@ export async function getCurrentAccount(userId: string) {
     ...accTmp,
   };
   return acc;
+}
+
+//update Account
+export async function updateAccount(userId: string, acc: Account) {
+  await updateDoc(doc(db, "users", userId), {
+    firstname: acc.firstname,
+    lastname: acc.lastname,
+  });
 }
